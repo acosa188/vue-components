@@ -2,7 +2,7 @@
   <div id="user-text-field">
     <input id="input-id" :type="checkedType" :required="required ? true : false" @input="handleInput" />
     <label id="label-id" for="user-text-field">{{ name }}</label>
-    <i class="bi-person-fill"></i>
+    <i id="icon-id" :class="`bi-${icon}`"></i>
   </div>
 </template>
 
@@ -18,6 +18,7 @@ export default {
     width: String,
     name: String,
     type: String,
+    icon: String,
     required: Boolean,
     error: Boolean,
     errCallback: Function,
@@ -72,6 +73,12 @@ export default {
         document.getElementById('user-text-field').classList.remove('mouseOver')
       }     
     })
+
+    // spacing adjustments
+    if(!this.icon){
+      document.getElementById('input-id').style.left = '10px'
+      document.getElementById('label-id').style.left = '10px'
+    }
   },
   watch: {
     height: function (newVal, oldVal) {

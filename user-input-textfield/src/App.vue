@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <form @submit.prevent="pressed">
-      <UserInputTextField height="50px" width="200px" name="Username or Email" v-model="input" :error="error"/>
+      <UserInputTextField height="50px" width="200px" name="Username or Email" v-model="input" :error="error" />
       <button type="submit">Press ME</button>
     </form>
     
