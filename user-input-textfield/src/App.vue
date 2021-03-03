@@ -1,6 +1,10 @@
 <template>
   <div id="app">
-    <UserInputTextField height="50px" width="200px" name="Username or Email" v-model="input"/>
+    <form @submit.prevent="pressed">
+      <UserInputTextField height="50px" width="200px" name="Username or Email" v-model="input" :error="error"/>
+      <button type="submit">Press ME</button>
+    </form>
+    
   </div>
 </template>
 
@@ -14,7 +18,13 @@ export default {
   },
   data(){
     return{
-      input: ""
+      input: "",
+      error: false
+    }
+  },
+  methods:{
+    pressed(){
+      this.error = !this.error
     }
   }
 }

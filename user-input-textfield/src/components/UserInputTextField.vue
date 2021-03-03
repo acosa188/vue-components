@@ -1,8 +1,8 @@
 <template>
   <div id="user-text-field">
-    <input type="text" required @input="handleInput" />
-    <label for="user-text-field">{{ name }}</label>
-    <i class="bi-person-fill" style="font-size: 1.5rem; color: grey"></i>
+    <input id="input-id" :type="checkedType" :required="required ? true : false" @input="handleInput" />
+    <label id="label-id" for="user-text-field">{{ name }}</label>
+    <i class="bi-person-fill"></i>
   </div>
 </template>
 
@@ -13,7 +13,30 @@ export default {
       input: "",
     };
   },
-  props: ["height", "width", "name"],
+  props: {
+    height: String,
+    width: String,
+    name: String,
+    type: String,
+    required: Boolean,
+    error: Boolean,
+    errCallback: Function,
+  },
+  computed: {
+    checkedType() {
+      if (this.type != "") {
+        if (!this.validType(this.type)) {
+          if(this.errCallback){
+            this.errCallback("invalid type, defaulting to text type");
+          }    
+          return "text";
+        }
+        return this.type;
+      } else {
+        return "text";
+      }
+    },
+  },
   methods: {
     validateSize(size) {
       return /\s*(\d+)px|\s*(\d+)rem|\s*(\d+)em/.test(size);
@@ -22,6 +45,33 @@ export default {
       this.input = e.target.value;
       this.$emit("input", e.target.value);
     },
+    validType(type) {
+      return ["text", "email", "password"].includes(type);
+    },
+  },
+  mounted(){
+    document.getElementById('user-text-field').addEventListener('mouseover', ()=>{
+      document.getElementById('user-text-field').classList.add('mouseOver')
+    });
+    document.getElementById('user-text-field').addEventListener('mouseout', ()=>{
+      let activeElem = document.getElementById('input-id')
+      // check if input is not focus and there is an input value
+      if(activeElem !== document.activeElement && document.getElementById('input-id').value === ""){
+        document.getElementById('user-text-field').classList.remove('mouseOver')
+      }
+      
+    })
+    document.getElementById('input-id').addEventListener('focusin', ()=>{
+      document.getElementById('label-id').classList.add('focusIn')
+      document.getElementById('user-text-field').classList.add('mouseOver')
+    })
+    document.getElementById('input-id').addEventListener('focusout', ()=>{
+      // check if there is an input value
+      if(document.getElementById('input-id').value === ""){
+        document.getElementById('label-id').classList.remove('focusIn')
+        document.getElementById('user-text-field').classList.remove('mouseOver')
+      }     
+    })
   },
   watch: {
     height: function (newVal, oldVal) {
@@ -46,13 +96,15 @@ export default {
         }
       }
     },
-    input: function(newVal){
-        console.log("got here")
-        if(newVal !== ""){
-            document.getElementById("user-text-field").style.borderColor = '#549b2c';
-        }else{
-            document.getElementById("user-text-field").style.borderColor = '#9c9a9ace';
-        }
+    error: function(newVal){
+      if(newVal === true){
+        document.getElementById('label-id').classList.add('error')
+        document.getElementById('user-text-field').classList.add('error')
+      }
+      else{
+        document.getElementById('label-id').classList.remove('error')
+        document.getElementById('user-text-field').classList.remove('error')
+      }
     }
   },
 };
@@ -65,6 +117,8 @@ i {
   position: absolute;
   top: calc(50% - 14px);
   left: 10px;
+  font-size: 1.5rem; 
+  color: grey
 }
 
 .bi::before {
@@ -81,11 +135,6 @@ i {
   width: 200px;
   border: 2px solid #9c9a9ace;
   border-radius: 5px;
-}
-
-#user-text-field:hover,
-#user-text-field:focus-within {
-  border-color: #549b2c!important;
 }
 
 input {
@@ -109,8 +158,34 @@ label {
   z-index: -100;
   color: grey;
 }
-input:focus ~ label,
-input:valid ~ label {
+
+/* Error Animations and Colors */
+.error{
+  animation: shake 0.4s forwards ease-out;
+}
+
+.error.focusIn{
+  color:#9b392c;
+}
+
+#user-text-field.error.mouseOver{
+  border-color: #9b392c;
+}
+
+#user-text-field.error.mouseOver > i{
+  color: #9b392c;
+}
+
+/* Default Colors */
+#user-text-field.mouseOver{
+  border-color: #549b2c;
+}
+
+#user-text-field.mouseOver > i{
+  color: #549b2c;
+}
+
+label.focusIn{
   font-size: 14px;
   top: -10px;
   background: white;
@@ -119,9 +194,28 @@ input:valid ~ label {
   padding: 0 5px;
 }
 
-#user-text-field:hover > i,
-input:valid ~ i,
-input:focus ~ i {
-  color: #549b2c !important;
+@keyframes shake{
+  0%, 100%{
+    transform: translate(0px,0px);
+  }
+  14%{
+    transform: translate(-10px,0px);
+  }
+  28%{
+    transform: translate(10px,0px);
+  }
+  42%{
+    transform: translate(-10px,0px);
+  }
+  56%{
+    transform: translate(10px,0px);
+  }
+  70%{
+    transform: translate(-10px,0px);
+  }
+  84%{
+    transform: translate(10px,0px);
+  }
 }
+
 </style>
