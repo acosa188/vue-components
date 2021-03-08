@@ -1,29 +1,31 @@
 # user-input-textfield
 
-## Project setup
+## About
+Text field that could be your regular text field, username field, email field, and password field. It takes care with error css magic and it could also returns a callback function if there is an error.
+
+### How to install
+Simply grab the vue component and import it.
+
+## How to use it
+### Size
 ```
-npm install
+<user-input-text-field width='200px' height='60px' />
 ```
 
-### Compiles and hot-reloads for development
+### Color
 ```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Run your unit tests
-```
-npm run test:unit
+#parentclass #user-text-field.mouseOver{
+  border-color: #2e2c9b;
+}
+#parentclass label.focusIn,
+#parentclass #user-text-field.mouseOver > i{
+  color:#2e2c9b;
+}
 ```
 
-### Lints and fixes files
+### Icons
+*Note: icon names should be chosen using [bootstrsap icons](https://icons.getbootstrap.com/)*
 ```
-npm run lint
+<user-input-text-field icon="person-fill" />
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
