@@ -15,15 +15,15 @@ npm run serve
 npm run build
 ```
 
-### Run your unit tests
+### Component states
+There is a prop called btn_state: *String* that handles the animation base on what state the component is in.
+- standby
+- loading
+- success
+- error
+### Requirements
+Copy and paste this in the header section of index.html
 ```
-npm run test:unit
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 ```
 
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).

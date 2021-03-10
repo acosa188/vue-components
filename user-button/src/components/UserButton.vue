@@ -1,10 +1,12 @@
 <template>
   <div>
-    <button class="btn">
-      <span> LOGIN </span>
+    <button type="submit" class="btn" id="user-button-id">
+      <span> {{ label }} </span>
       <div class="icon">
+        <i class="fa fa-sign-in"></i>
         <i class="fa fa-remove"></i>
         <i class="fa fa-check"></i>
+        <i class="fa lds-dual-ring"></i>
       </div>
     </button>
   </div>
@@ -13,6 +15,49 @@
 <script>
 export default {
   name: "UserButton",
+  props: {
+    label: String,
+    height: String,
+    width: String,
+    btn_state: String,
+  },
+  watch: {
+    btn_state: function (newVal, oldVal) {
+      let accepted_states = ["standby", "loading", "success", "error"];
+
+      if (newVal !== oldVal) {
+        if (accepted_states.includes(newVal.toLowerCase())) {
+          switch (newVal.toLowerCase()) {
+            case "loading":
+              document.getElementById("user-button-id").classList.add("loading");
+              break;
+            case "success":
+              document.getElementById("user-button-id").classList.remove("loading");
+              document.getElementById("user-button-id").classList.add("success");
+              setTimeout(() => {
+                document
+                  .getElementById("user-button-id")
+                  .classList.remove("success");
+              }, 3000);
+              break;
+            case "error":
+              document.getElementById("user-button-id").classList.remove("loading");
+              document.getElementById("user-button-id").classList.add("error");
+              setTimeout(() => {
+                document
+                  .getElementById("user-button-id")
+                  .classList.remove("error");
+              }, 3000);
+              break;
+          }
+        } else {
+          throw Error(
+            "wrong button state, please refer to the component document"
+          );
+        }
+      }
+    },
+  },
 };
 </script>
 
@@ -26,7 +71,7 @@ export default {
   border: none;
   border-radius: 5px;
   outline: none;
-  height: 100px;
+  height: 50px;
   width: 300px;
   cursor: pointer;
   margin: auto;
@@ -73,7 +118,7 @@ export default {
   transition: all 0.2s ease;
 }
 
-.btn > .icon > .fa-remove {
+.btn > .icon > .fa-sign-in {
   height: 36px;
 }
 
@@ -81,36 +126,113 @@ export default {
   display: none;
 }
 
-.btn > .success > span,
+.btn > .icon > .fa-remove {
+  display: none;
+}
+
+.btn > .icon > .lds-dual-ring{
+  display: none;
+}
+
+.btn.error {
+  background-color: #9b2c2c;
+}
+
+.btn.success > span,
+.btn.loading > span,
+.btn.error > span,
 .btn:hover > span {
   left: -72%;
   opacity: 0;
 }
 
-.btn > .success > .icon,
+.btn.success > .icon,
+.btn.loading > .icon,
+.btn.error > .icon,
 .btn:hover > .icon {
   width: 100%;
 }
 
-.btn > .success > .icon > .fa,
+.btn.success > .icon > .fa,
+.btn.loading > .icon > .fa,
+.btn.error > .icon > .fa,
 .btn:hover > .icon > .fa {
   font-size: 45px;
 }
 
-.btn > .success > .icon > .fa-remove {
+.btn.success > .icon > .fa-sign-in {
   display: none;
 }
-.btn > .success > .icon > .fa-check {
+.btn.success > .icon > .fa-remove {
+  display: none;
+}
+.btn.success > .icon > .fa-check {
+  display: inline-block;
+}
+.btn.success > .icon > .lds-dual-ring {
+  display: none;
+}
+
+.btn.error > .icon > .fa-sign-in {
+  display: none;
+}
+.btn.error > .icon > .fa-remove {
+  display: inline-block;
+}
+.btn.error > .icon > .fa-check {
+  display: none;
+}
+.btn.error > .icon > .lds-dual-ring {
+  display: none;
+}
+
+.btn.loading > .icon > .fa-sign-in {
+  display: none;
+}
+.btn.loading > .icon > .fa-remove {
+  display: none;
+}
+.btn.loading > .icon > .fa-check {
+  display: none;
+}
+.btn.loading > .icon > .lds-dual-ring {
   display: inline-block;
 }
 
 .btn:hover {
   opacity: 0.9;
 }
-.btn:hover > .icon > .fa-remove {
+.btn:hover > .icon > .fa-sign-in {
   height: 45px;
 }
 .btn:active {
   opacity: 1;
 }
+
+/* loading css */
+.lds-dual-ring {
+  display: inline-block;
+  width: 45px;
+  height: 45px;
+}
+.lds-dual-ring:after {
+  content: " ";
+  display: block;
+  width: 30px;
+  height: 30px;
+  margin: 3px;
+  border-radius: 50%;
+  border: 6px solid #fff;
+  border-color: #fff transparent #fff transparent;
+  animation: lds-dual-ring 1.2s linear infinite;
+}
+@keyframes lds-dual-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 </style>
