@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <user-button label="SIGN IN" btn_state="success"/>
+    <user-button height="100px" width="300px" label="SIGN IN" btn_state="success"/>
   </div>
 </template>
 
