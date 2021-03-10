@@ -1,7 +1,8 @@
 <template>
   <div id="app">
     <form @submit.prevent="pressed">
-      <UserInputTextField height="50px" width="200px" name="Username or Email" v-model="input" :error="error" />
+      <UserInputTextField class="mb-5" height="50px" width="200px" name="Username or Email" v-model="input" :error="error" />
+      <UserInputTextField class="mb-5" height="50px" width="200px" name="Password" icon="key-fill" type="password" v-model="input" :error="error" />
       <button type="submit">Press ME</button>
     </form>
     
@@ -45,5 +46,8 @@ html,body{
   justify-content: center;
   align-items: center;
   height: 100%;
+}
+.mb-5{
+  margin-bottom: 1.5rem;
 }
 </style>

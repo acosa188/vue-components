@@ -162,7 +162,6 @@ label {
   transition: 0.2s all;
   text-align: left;
   cursor: text;
-  z-index: -100;
   color: grey;
 }
 
