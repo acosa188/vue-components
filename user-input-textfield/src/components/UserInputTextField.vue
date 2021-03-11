@@ -1,6 +1,6 @@
 <template>
-  <div class="inputVue" >
-    <input :id="`input-id-${label}`" @input="inputHandler" ref="input" :style="{height: validateSize(height) ? height : '40px', width: validateSize(width) ? width : '100%'}" :type="validateType(type) ? type : 'text'"/>
+  <div class="inputVue" :style="{height: validateSize(height) ? height : '40px', width: validateSize(width) ? width : '100%'}" >
+    <input :id="`input-id-${label}`" @input="inputHandler" ref="input" :type="validateType(type) ? type : 'text'"/>
     <label :for="`input-id-${label}`">{{label}}</label>
   </div>
 </template>
@@ -63,7 +63,7 @@ input{
   outline: none;
   border: 2px solid rgba(68, 68, 68, 0.808);
   border-radius: 5px;
-  height: 40px;
+  height: 100%;
   width: 100%;
   padding-left: 10px;
   padding-right: 10px;
@@ -75,7 +75,7 @@ input.inputIn{
 }
 label{
   position: absolute;
-  top: calc(50% - 10px);
+  top: calc(50% - 7px);
   left: 10px;
   transition: 0.2s all ease;
   cursor: text;

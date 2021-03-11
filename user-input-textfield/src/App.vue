@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <input-vue v-model="userName" label="username" class="mb-5" :error="error"/>
-    <input-vue v-model="password" label="password" type="time"/>
+    <input-vue v-model="userName" label="username" class="mb-5" :error="error" width="300px" height="60px"/>
+    <input-vue v-model="password" label="password" type="time" width="300px"/>
     <button @click="clickMe">Click ME</button>
   </div>
 </template>
