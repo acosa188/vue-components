@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="user-button-wrapper">
     <button type="submit" class="btn" id="user-button-id" :style="{width: validateSize(width) ? width : '100%', height: validateSize(height) ? height : '50px'}">
       <span> {{ label }} </span>
       <div class="icon">
@@ -68,6 +68,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.user-button-wrapper{
+  width: 100%;
+}
 .btn {
   display: block;
   position: relative;
