@@ -1,7 +1,7 @@
 # user-input-textfield
 
 ## About
-Text field that could be your regular text field, username field, email field, and password field. It takes care with error css magic and it could also returns a callback function if there is an error.
+Text field that has fancy css animations.
 
 ### How to install
 Simply grab the vue component and import it.
@@ -11,21 +11,37 @@ Simply grab the vue component and import it.
 ```
 <user-input-text-field width='200px' height='60px' />
 ```
+#### Format
+- px
+- em
+- rem
+- %
 
 ### Color
 ```
-#parentclass #user-text-field.mouseOver{
-  border-color: #2e2c9b;
+#parentClass input:focus ~ label,
+#parentClass input.inputIn ~ label{
+  color: blue;
 }
-#parentclass label.focusIn,
-#parentclass #user-text-field.mouseOver > i{
-  color:#2e2c9b;
+
+#parentClass input:hover,
+#parentClass input:focus,
+#parentClass input.inputIn{
+  border-color: blue;
 }
 ```
 
-### Icons
-*Note: icon names should be chosen using [bootstrsap icons](https://icons.getbootstrap.com/)*
+### Error
+If you would like some error animation, simply bind a boolean value.
+<br>
+*Important: The boolean value need to get reset to false every form submission attempt.*
 ```
-<user-input-text-field icon="person-fill" />
+<user-input-text-field :error="error">
+
+data(){
+  return{
+    error: false
+  }
+}
 ```
 
