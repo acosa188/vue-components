@@ -1,31 +1,29 @@
 <template>
   <div id="app">
-    <form @submit.prevent="pressed">
-      <UserInputTextField class="mb-5" height="50px" width="200px" name="Username or Email" v-model="input" :error="error" />
-      <UserInputTextField class="mb-5" height="50px" width="200px" name="Password" icon="key-fill" type="password" v-model="input" :error="error" />
-      <button type="submit">Press ME</button>
-    </form>
-    
+    <input-vue v-model="userName" label="username" class="mb-5" :error="error"/>
+    <input-vue v-model="password" label="password" type="time"/>
+    <button @click="clickMe">Click ME</button>
   </div>
 </template>
 
 <script>
-import UserInputTextField from './components/UserInputTextField.vue'
+import InputVue from './components/UserInputTextField.vue'
 
 export default {
   name: 'App',
   components: {
-    UserInputTextField
+    InputVue
   },
   data(){
     return{
-      input: "",
+      userName: "",
+      password: "",
       error: false
     }
   },
   methods:{
-    pressed(){
-      this.error = !this.error
+    clickMe(){
+      this.error = !this.error;
     }
   }
 }
@@ -34,19 +32,24 @@ export default {
 <style>
 html,body{
   height: 100%;
+  overflow: hidden;
   margin: 0;
 }
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  height: 100%;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
+  flex-direction: column;
 }
+
 .mb-5{
   margin-bottom: 1.5rem;
 }

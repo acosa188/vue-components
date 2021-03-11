@@ -1,203 +1,103 @@
 <template>
-  <div id="user-text-field">
-    <input id="input-id" :type="checkedType" :required="required ? true : false" @input="handleInput" />
-    <label id="label-id" for="user-text-field">{{ name }}</label>
-    <i id="icon-id" :class="`bi-${icon}`"></i>
+  <div class="inputVue" >
+    <input :id="`input-id-${label}`" @input="inputHandler" ref="input" :style="{height: validateSize(height) ? height : '40px', width: validateSize(width) ? width : '100%'}" :type="validateType(type) ? type : 'text'"/>
+    <label :for="`input-id-${label}`">{{label}}</label>
   </div>
 </template>
 
 <script>
 export default {
-  data() {
-    return {
-      input: "",
-    };
-  },
-  props: {
+  name: 'InputVue',
+  props:{
+    label:{
+      type: String,
+      require: true
+    },
+    error: Boolean,
     height: String,
     width: String,
-    name: String,
-    type: String,
-    icon: String,
-    required: Boolean,
-    error: Boolean,
-    errCallback: Function,
+    type: String
   },
-  computed: {
-    checkedType() {
-      if (this.type != "") {
-        if (!this.validType(this.type)) {
-          if(this.errCallback){
-            this.errCallback("invalid type, defaulting to text type");
-          }    
-          return "text";
-        }
-        return this.type;
-      } else {
-        return "text";
-      }
+  methods:{
+    inputHandler(e){
+      this.$emit('input', e.target.value);
     },
-  },
-  methods: {
     validateSize(size) {
-      return /\s*(\d+)px|\s*(\d+)rem|\s*(\d+)em/.test(size);
+      return /\s*(\d+)px|\s*(\d+)rem|\s*(\d+)em|\s*(\d+)%/.test(size);
     },
-    handleInput(e) {
-      this.input = e.target.value;
-      this.$emit("input", e.target.value);
-    },
-    validType(type) {
-      return ["text", "email", "password"].includes(type);
-    },
+    validateType(type){
+      return ["text", "email", "password","search", "tel", "number", "url"].includes(type);
+    }
+  },
+  watch:{
+    error: function(newVal, oldVal){
+      if(newVal !== oldVal){
+        if(newVal){
+          this.$refs.input.classList.add("error");
+          setTimeout(()=>{
+            this.$refs.input.classList.remove("error");
+          }, 1500);
+        }
+      }
+    }
   },
   mounted(){
-    document.getElementById('user-text-field').addEventListener('mouseover', ()=>{
-      document.getElementById('user-text-field').classList.add('mouseOver')
-    });
-    document.getElementById('user-text-field').addEventListener('mouseout', ()=>{
-      let activeElem = document.getElementById('input-id')
-      // check if input is not focus and there is an input value
-      if(activeElem !== document.activeElement && document.getElementById('input-id').value === ""){
-        document.getElementById('user-text-field').classList.remove('mouseOver')
-      }
-      
+    this.$refs.input.addEventListener('focusout', ()=>{
+      // check if there is an input
+      console.log(this.$refs.input)
+      if(this.$refs.input.value !== "")
+        this.$refs.input.classList.add("inputIn");
+      else
+        this.$refs.input.classList.remove("inputIn");
     })
-    document.getElementById('input-id').addEventListener('focusin', ()=>{
-      document.getElementById('label-id').classList.add('focusIn')
-      document.getElementById('user-text-field').classList.add('mouseOver')
-    })
-    document.getElementById('input-id').addEventListener('focusout', ()=>{
-      // check if there is an input value
-      if(document.getElementById('input-id').value === ""){
-        document.getElementById('label-id').classList.remove('focusIn')
-        document.getElementById('user-text-field').classList.remove('mouseOver')
-      }     
-    })
-
-    // spacing adjustments
-    if(!this.icon){
-      document.getElementById('input-id').style.left = '10px'
-      document.getElementById('label-id').style.left = '10px'
-    }
-  },
-  watch: {
-    height: function (newVal, oldVal) {
-      if (newVal !== oldVal) {
-        if (this.validateSize(newVal)) {
-          document.getElementById("user-text-field").style.height = newVal;
-        } else {
-          // revert to default
-          document.getElementById("user-text-field").style.height = "40px";
-          throw Error("only accepts rem, em, px");
-        }
-      }
-    },
-    width: function (newVal, oldVal) {
-      if (newVal !== oldVal) {
-        if (this.validateSize(newVal)) {
-          document.getElementById("user-text-field").style.width = newVal;
-        } else {
-          // revert to default
-          document.getElementById("user-text-field").style.width = "100%";
-          throw Error("only accepts rem, em, px");
-        }
-      }
-    },
-    error: function(newVal){
-      if(newVal === true){
-        document.getElementById('label-id').classList.add('error')
-        document.getElementById('user-text-field').classList.add('error')
-      }
-      else{
-        document.getElementById('label-id').classList.remove('error')
-        document.getElementById('user-text-field').classList.remove('error')
-      }
-    }
-  },
-};
+  }
+}
 </script>
 
+<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css");
-
-i {
-  position: absolute;
-  top: calc(50% - 14px);
-  left: 10px;
-  font-size: 1.5rem; 
-  color: grey
-}
-
-.bi::before {
-  content: "";
-  vertical-align: -0.125em;
-  background-image: url("data:image/svg+xml,<svg viewBox='0 0 16 16' fill='%23333' xmlns='http://www.w3.org/2000/svg'><path fill-rule='evenodd' d='M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z' clip-rule='evenodd'/></svg>");
-  background-repeat: no-repeat;
-  background-size: 1rem 1rem;
-}
-
-#user-text-field {
+.inputVue{
   position: relative;
-  height: 40px;
-  width: 200px;
-  border: 2px solid #9c9a9ace;
+}
+input{
+  outline: none;
+  border: 2px solid rgba(68, 68, 68, 0.808);
   border-radius: 5px;
+  height: 40px;
+  width: 100%;
+  padding-left: 10px;
+  padding-right: 10px;
 }
-
-input {
-  position: absolute;
-  left: 40px;
-  height: 100%;
-  width: calc(100% - 45px);
-  padding: 0;
-  border: 0;
-  outline: 0;
-  background-color: transparent;
+input:hover,
+input:focus,
+input.inputIn{
+  border-color: rgb(51, 175, 35);
 }
-
-label {
+label{
   position: absolute;
   top: calc(50% - 10px);
-  left: 40px;
-  transition: 0.2s all;
-  text-align: left;
+  left: 10px;
+  transition: 0.2s all ease;
   cursor: text;
-  color: grey;
 }
 
-/* Error Animations and Colors */
+input:focus ~ label,
+input.inputIn ~ label{
+  top: -7px;
+  font-size: 14px;
+  color: rgb(51, 175, 35);
+  background: #fff;
+}
+
+input.error{
+  border-color: rgb(175, 35, 35);
+}
+input.error ~ label{
+  color: rgb(175, 35, 35);
+}
+
 .error{
   animation: shake 0.4s forwards ease-out;
-}
-
-.error.focusIn{
-  color:#9b392c;
-}
-
-#user-text-field.error.mouseOver{
-  border-color: #9b392c;
-}
-
-#user-text-field.error.mouseOver > i{
-  color: #9b392c;
-}
-
-/* Default Colors */
-#user-text-field.mouseOver{
-  border-color: #549b2c;
-}
-
-#user-text-field.mouseOver > i{
-  color: #549b2c;
-}
-
-label.focusIn{
-  font-size: 14px;
-  top: -10px;
-  background: white;
-  z-index: 100;
-  color: #549b2c;
-  padding: 0 5px;
 }
 
 @keyframes shake{
@@ -223,5 +123,4 @@ label.focusIn{
     transform: translate(10px,0px);
   }
 }
-
 </style>
