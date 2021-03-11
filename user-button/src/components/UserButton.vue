@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button type="submit" class="btn" id="user-button-id">
+    <button type="submit" class="btn" id="user-button-id" :style="{width: validateSize(width) ? width : '100%', height: validateSize(height) ? height : '50px'}">
       <span> {{ label }} </span>
       <div class="icon">
         <i class="fa fa-sign-in"></i>
@@ -23,32 +23,10 @@ export default {
   },
   methods:{
     validateSize(size){
-      return /\s*(\d+)px|\s*(\d+)rem|\s*(\d+)em/.test(size);
+      return /\s*(\d+)px|\s*(\d+)rem|\s*(\d+)em|\s*(\d+)%/.test(size);
     }
   },
   watch: {
-    height: function (newVal, oldVal) {
-      if (newVal !== oldVal) {
-        if (this.validateSize(newVal)) {
-          document.getElementById("user-button-id").style.height = newVal;
-        } else {
-          // revert to default
-          document.getElementById("user-button-id").style.height = "50px";
-          throw Error("only accepts rem, em, px");
-        }
-      }
-    },
-    width: function (newVal, oldVal) {
-      if (newVal !== oldVal) {
-        if (this.validateSize(newVal)) {
-          document.getElementById("user-button-id").style.width = newVal;
-        } else {
-          // revert to default
-          document.getElementById("user-button-id").style.width = "100%";
-          throw Error("only accepts rem, em, px");
-        }
-      }
-    },
     btn_state: function (newVal, oldVal) {
       let accepted_states = ["standby", "loading", "success", "error"];
 
