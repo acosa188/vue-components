@@ -1,6 +1,6 @@
 <template>
   <div class="inputVue" :style="{height: validateSize(height) ? height : '40px', width: validateSize(width) ? width : '100%'}" >
-    <input :id="`input-id-${label}`" @input="inputHandler" ref="input" :type="validateType(type) ? type : 'text'"/>
+    <input :id="`input-id-${label}`" @input="inputHandler" ref="input" :type="validateType(type) ? type : 'text'" :required="required"/>
     <label :for="`input-id-${label}`">{{label}}</label>
   </div>
 </template>
@@ -16,7 +16,8 @@ export default {
     error: Boolean,
     height: String,
     width: String,
-    type: String
+    type: String,
+    required: Boolean
   },
   methods:{
     inputHandler(e){
