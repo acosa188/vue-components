@@ -1,6 +1,6 @@
 <template>
   <div class="user-button-wrapper">
-    <button type="submit" class="btn" id="user-button-id" :style="{width: validateSize(width) ? width : '100%', height: validateSize(height) ? height : '50px'}">
+    <button type="submit" ref="button" class="btn" id="user-button-id" :style="{width: validateSize(width) ? width : '100%', height: validateSize(height) ? height : '50px'}">
       <span> {{ label }} </span>
       <div class="icon">
         <i class="fa fa-sign-in"></i>
@@ -34,24 +34,20 @@ export default {
         if (accepted_states.includes(newVal.toLowerCase())) {
           switch (newVal.toLowerCase()) {
             case "loading":
-              document.getElementById("user-button-id").classList.add("loading");
+              this.$refs.button.classList.add("loading")
               break;
             case "success":
-              document.getElementById("user-button-id").classList.remove("loading");
-              document.getElementById("user-button-id").classList.add("success");
+              this.$refs.button.classList.remove("loading")
+              this.$refs.button.classList.add("success")
               setTimeout(() => {
-                document
-                  .getElementById("user-button-id")
-                  .classList.remove("success");
+                this.$refs.button.classList.remove("success")
               }, 3000);
               break;
             case "error":
-              document.getElementById("user-button-id").classList.remove("loading");
-              document.getElementById("user-button-id").classList.add("error");
+              this.$refs.button.classList.remove("loading")
+              this.$refs.button.classList.add("error")
               setTimeout(() => {
-                document
-                  .getElementById("user-button-id")
-                  .classList.remove("error");
+                this.$refs.button.classList.remove("error")
               }, 3000);
               break;
           }
