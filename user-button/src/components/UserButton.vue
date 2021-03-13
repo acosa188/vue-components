@@ -124,6 +124,10 @@ export default {
 
 .btn > .icon > .fa-sign-in {
   height: 36px;
+  margin-top: 3px;
+}
+.btn > .icon > .fa-sign-in::before {
+  height: 100%;
 }
 
 .btn > .icon > .fa-check {
