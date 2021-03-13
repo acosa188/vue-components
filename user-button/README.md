@@ -7,6 +7,17 @@ Sign In or Sign Up button that got some fancy animation. Lazy to implement anima
 Simply grab the vue component and import it. Don't forget to add font-awesome. Refer to the requirement section.
 
 ## How to use it
+### Sign up Icon
+By default, it is a sign in icon. The user needs to toggle signUp props from false to true to change the icon to sign up.
+```
+<user-button :signUp="signUpToggle">
+
+data(){
+    return{
+        signUpToggle: false
+    }
+}
+```
 ### Size
 ```
 <user-button height="50px" width="200px"/>
