@@ -3,7 +3,7 @@
     <button type="submit" ref="button" class="btn" id="user-button-id" :style="{width: validateSize(width) ? width : '100%', height: validateSize(height) ? height : '50px'}">
       <span> {{ label }} </span>
       <div class="icon">
-        <i class="fa fa-sign-in"></i>
+        <i :class="`fa ${signUp ? 'fa-user-plus': 'fa-sign-in'}`"></i>
         <i class="fa fa-remove"></i>
         <i class="fa fa-check"></i>
         <i class="fa lds-dual-ring"></i>
@@ -17,6 +17,7 @@ export default {
   name: "UserButton",
   props: {
     label: String,
+    signUp: Boolean,
     height: String,
     width: String,
     btn_state: String,
@@ -126,8 +127,10 @@ export default {
   height: 36px;
   margin-top: 3px;
 }
-.btn > .icon > .fa-sign-in::before {
-  height: 100%;
+
+.btn > .icon > .fa-user-plus {
+  height: 36px;
+  margin-top: 3px;
 }
 
 .btn > .icon > .fa-check {
@@ -168,41 +171,38 @@ export default {
   font-size: 45px;
 }
 
-.btn.success > .icon > .fa-sign-in {
+.btn.success > .icon > .fa-sign-in,
+.btn.error > .icon > .fa-sign-in,
+.btn.loading > .icon > .fa-sign-in{
   display: none;
 }
-.btn.success > .icon > .fa-remove {
+.btn.success > .icon > .fa-user-plus,
+.btn.error > .icon > .fa-user-plus,
+.btn.loading > .icon > .fa-user-plus {
+  display: none;
+}
+.btn.success > .icon > .fa-remove,
+.btn.loading > .icon > .fa-remove {
   display: none;
 }
 .btn.success > .icon > .fa-check {
   display: inline-block;
 }
-.btn.success > .icon > .lds-dual-ring {
-  display: none;
-}
-
-.btn.error > .icon > .fa-sign-in {
-  display: none;
-}
-.btn.error > .icon > .fa-remove {
-  display: inline-block;
-}
-.btn.error > .icon > .fa-check {
-  display: none;
-}
+.btn.success > .icon > .lds-dual-ring,
 .btn.error > .icon > .lds-dual-ring {
   display: none;
 }
 
-.btn.loading > .icon > .fa-sign-in {
-  display: none;
+
+.btn.error > .icon > .fa-remove {
+  display: inline-block;
 }
-.btn.loading > .icon > .fa-remove {
-  display: none;
-}
+.btn.error > .icon > .fa-check,
 .btn.loading > .icon > .fa-check {
   display: none;
 }
+
+
 .btn.loading > .icon > .lds-dual-ring {
   display: inline-block;
 }
@@ -210,7 +210,8 @@ export default {
 .btn:hover {
   opacity: 0.9;
 }
-.btn:hover > .icon > .fa-sign-in {
+.btn:hover > .icon > .fa-sign-in,
+.btn:hover > .icon > .fa-user-plus {
   height: 45px;
 }
 .btn:active {
